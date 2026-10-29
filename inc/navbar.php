@@ -15,7 +15,7 @@
         </div>
 
         <div class="col text-end">
-            <span>Usuário logado: <strong><?= $_SESSION['usuario']->usuario ?></strong></span>
+            <span>Usuário logado: <strong><?= htmlspecialchars($_SESSION['usuario']->usuario, ENT_QUOTES, 'UTF-8') ?></strong></span>
             <span class="mx-2">|</span>
             <a href="?rota=logout">Sair</a>
         </div>

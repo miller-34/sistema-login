@@ -2,7 +2,7 @@
 
 // verifica se aconteceu um POST
 if($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /?rota=login');
+    header('Location: index.php?rota=login');
     exit;
 }
 
@@ -12,7 +12,7 @@ $senha = $_POST['text_senha'] ?? null;
 
 // verifica se os dados estão preenchidos
 if(!$usuario || !$senha) {
-    header('Location: /?rota=login');
+    header('Location: index.php?rota=login');
     exit;
 }
 
@@ -23,7 +23,7 @@ $db = new database();
 $params = [
     ':usuario' => $usuario
 ];
-$sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
+$sql = "SELECT id, usuario, senha FROM usuarios WHERE usuario = :usuario LIMIT 1";
 $result = $db->query($sql, $params);
 
 // verifica se aconteceu um erro
@@ -54,7 +54,12 @@ if(!password_verify($senha, $result['data'][0]->senha)) {
 }
 
 // define a sessão do usuário
-$_SESSION['usuario'] = $result['data'][0];
+session_regenerate_id(true);
+$_SESSION['usuario'] = (object) [
+    'id' => $result['data'][0]->id,
+    'usuario' => $result['data'][0]->usuario
+];
 
 // redireciona para a página inicial
 header('Location: index.php?rota=home');
+exit;

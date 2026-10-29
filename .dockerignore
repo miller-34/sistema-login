@@ -1,0 +1,7 @@
+.git
+.agents
+.codex
+.env
+compose.yaml
+README.md
+docker/mysql

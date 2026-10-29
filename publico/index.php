@@ -63,6 +63,12 @@ switch ($rota) {
 require_once __DIR__ . "/../inc/config.php";
 require_once __DIR__ . "/../inc/database.php";
 
+// ações que precisam redirecionar são executadas antes de qualquer HTML
+if (in_array($rota, ['login_submit', 'logout'], true)) {
+    require_once __DIR__ . "/../scripts/$script";
+    exit;
+}
+
 // apresentação da página
 require_once __DIR__ . "/../inc/header.php";
 require_once __DIR__ . "/../scripts/$script";
